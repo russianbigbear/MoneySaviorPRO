@@ -1,0 +1,30 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoneyCalc", "MoneyCalc\MoneyCalc.csproj", "{DF4A928F-F480-417D-9B6F-7D93BCDD3BA6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{65372FB9-2006-4331-A435-EDD00311A8A1}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DF4A928F-F480-417D-9B6F-7D93BCDD3BA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF4A928F-F480-417D-9B6F-7D93BCDD3BA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF4A928F-F480-417D-9B6F-7D93BCDD3BA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF4A928F-F480-417D-9B6F-7D93BCDD3BA6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F2399265-9825-4A4B-86C4-D12D53047A3D}
+	EndGlobalSection
+EndGlobal

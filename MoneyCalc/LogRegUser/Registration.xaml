@@ -1,0 +1,34 @@
+﻿<Window x:Class="MoneyCalc.LogRegUser.Registration"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MoneyCalc.LogRegUser"
+        mc:Ignorable="d"
+        Title="Регистрация" Height="350" Width="300" ResizeMode="NoResize" Icon="/LogRegUser/icon.png" WindowStartupLocation="CenterScreen">
+    <Grid>
+        <Label x:Name="NameL" Content="Имя пользователя" Margin="10,20,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Comic Sans MS" HorizontalAlignment="Left" Width="280"/>
+        <Label x:Name="PassOneL" Content="Пароль" Margin="10,92,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Comic Sans MS" HorizontalAlignment="Left" Width="280"/>
+        <Label x:Name="PassTwoL" Content="Подтверждение пароля" Margin="10,169,0,0" VerticalAlignment="Top" FontSize="16" FontFamily="Comic Sans MS" HorizontalAlignment="Left" Width="280"/>
+        <TextBox x:Name="NameTB" Margin="10,52,10,0" TextWrapping="Wrap" VerticalAlignment="Top" Height="30" VerticalContentAlignment="Center" TabIndex="1"/>
+        <Button x:Name="CreateBTN" Content="Создать" Margin="10,0,0,10" FontWeight="Bold" Height="30" VerticalAlignment="Bottom" HorizontalAlignment="Left" Width="135" Click="CreateBTN_Click" TabIndex="4"/>
+        <Button x:Name="ExitBTN" Content="Отмена" Margin="155,0,10,10" FontWeight="Bold" Height="30" VerticalAlignment="Bottom" Click="ExitBTN_Click" TabIndex="5"/>
+        <PasswordBox x:Name="PassOneTB" Margin="10,129,0,0" VerticalAlignment="Top" Height="30" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" TabIndex="2"/>
+        <PasswordBox x:Name="PassTwoTB" Margin="10,206,0,0" VerticalAlignment="Top" Height="30" VerticalContentAlignment="Center" Width="250" HorizontalAlignment="Left" TabIndex="3"/>
+        <TextBox x:Name="PassOneShowTB" HorizontalAlignment="Left" Margin="10,129,0,0" TextWrapping="Wrap" VerticalContentAlignment="Center" VerticalAlignment="Top" Width="250" Height="30" Visibility="Hidden"/>
+        <TextBox x:Name="PassTwoShowTB" HorizontalAlignment="Left" Margin="10,206,0,0" TextWrapping="Wrap" VerticalContentAlignment="Center" VerticalAlignment="Top" Width="250" Height="30" Visibility="Hidden"/>
+
+        <Button x:Name="ShowOneBTN" HorizontalAlignment="Right" Margin="0,129,10,0" VerticalAlignment="Top" Height="30" Width="30" MouseLeave="ShowOneBTN_MouseLeave">
+            <StackPanel Orientation=" Vertical">
+                <Image x:Name="One" Source="/LogRegUser/show.png" MouseLeftButtonDown="One_MouseLeftButtonDown" />
+            </StackPanel>
+        </Button>
+
+        <Button x:Name="ShowTwoBTN" Margin="0,206,10,0" VerticalAlignment="Top" Height="30" MouseLeave="ShowTwoBTN_MouseLeave" HorizontalAlignment="Right" Width="30">
+            <StackPanel Orientation=" Vertical">
+                <Image x:Name="Two" Source="/LogRegUser/show.png" MouseLeftButtonDown="Two_MouseLeftButtonDown" />
+            </StackPanel>
+        </Button>
+
+    </Grid>
+</Window>

@@ -1,0 +1,273 @@
+﻿<Window x:Class="MoneyCalc.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:MoneyCalc"
+        mc:Ignorable="d"
+        Title="Money Savior PRO" Height="720" Width="1280" Icon="/icon.png" SizeToContent="Manual" ResizeMode="NoResize" Closed="Window_Closed" WindowStartupLocation="CenterScreen" Loaded="Window_Loaded">
+    <Grid Background="#FFE5E5E5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0*"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Menu x:Name="Menu" Height="25" VerticalAlignment="Top" HorizontalAlignment="Left" Width="640" Grid.RowSpan="2">
+            <MenuItem x:Name="BillsItem" Header="Мои счета" FontSize="14" HorizontalAlignment="Center" Height="25" FontFamily="Comic Sans MS" FontWeight="Normal" FontStyle="Normal" Click="BillsItem_Click" ></MenuItem>
+            <MenuItem x:Name="IncomeItem" Header="Категории доходов" FontSize="14" FontFamily="Comic Sans MS" Click="IncomeItem_Click" ></MenuItem>
+            <MenuItem x:Name="ExspenseItem" Header="Категории расходов" FontSize="14" FontFamily="Comic Sans MS" Click="ExspenseItem_Click" />
+        </Menu>
+        <Menu x:Name="UserMenu" Height="25" VerticalAlignment="Top" Grid.RowSpan="2" HorizontalAlignment="Right" Width="640">
+            <MenuItem x:Name="UsernameL" Header="Пользователь:" FontSize="14" FontFamily="Comic Sans MS" HorizontalAlignment="Left" Height="25" Width="470" IsEnabled="False"/>
+            <MenuItem Header="Сменить пользователя" FontSize="14" FontFamily="Comic Sans MS" Width="170" Click="MenuItem_Click" ></MenuItem>
+        </Menu>
+        <GroupBox x:Name="BudgetGB" Header="Личный бюджет" Grid.RowSpan="2" Margin="10,40,960,0" BorderBrush="#FF807E7E" FontSize="14" FontFamily="Comic Sans MS" FontStyle="Normal" Height="180" VerticalAlignment="Top" FontWeight="Bold">
+            <Grid x:Name="BudgetGrid">
+                <Label x:Name="BudgetL" Content="Сумма бюджета:" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" FontSize="14" FontStyle="Italic" Width="278" Height="30" FontWeight="Normal"/>
+                <Label x:Name="BudgetShowL" Content="" HorizontalAlignment="Center" Margin="0,45,0,0" VerticalAlignment="Top" Width="278" FontStyle="Normal" Height="30" FontWeight="Normal"/>
+                <Button x:Name="BudgetBTN" Content="Сменить валюту" HorizontalAlignment="Center" Margin="0,115,0,0" VerticalAlignment="Top" Height="30" FontStyle="Normal" FontWeight="Bold" Width="278" Click="BudgetBTN_Click"/>
+                <Label x:Name="ValueShowL" Content="" HorizontalAlignment="Center" Margin="0,80,0,0" VerticalAlignment="Top" Width="278" FontStyle="Normal" Height="30" FontWeight="Normal"/>
+            </Grid>
+        </GroupBox>
+
+        <TabControl x:Name="Print" Grid.RowSpan="2" Margin="0,40,10,10" HorizontalAlignment="Right" Width="945" BorderBrush="#FF807E7E" Background="#FF807E7E" SelectionChanged="Print_SelectionChanged">
+            <TabItem x:Name="IncomeTab" Header="Доходы" FontSize="13" FontFamily="Comic Sans MS" FontStyle="Italic">
+                <Grid x:Name="IncomeGrid" Background="#FFE5E5E5" Margin="-2,-2,-2,-2">
+                    <DataGrid x:Name="INdataGrid" ColumnWidth="*" AutoGenerateColumns="False" VerticalContentAlignment="Center" Margin="0,95,0,30" CanUserAddRows="False" RowEditEnding="INdataGrid_RowEditEnding" CellEditEnding="INdataGrid_CellEditEnding" MouseDown="INdataGrid_MouseDown" BeginningEdit="INdataGrid_BeginningEdit">
+                        <DataGrid.Resources>
+                            <Style TargetType="ScrollBar">
+                                <Style.Triggers>
+                                    <Trigger Property="Orientation" Value="Vertical">
+                                        <Setter Property="Width" Value="20"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <DataGrid.RowHeaderStyle>
+                            <Style TargetType="DataGridRowHeader">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Дата">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding DateIncome, Mode=TwoWay, UpdateSourceTrigger =PropertyChanged}" BorderThickness="0" VerticalContentAlignment="Center"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Категория доходов" Binding="{Binding CategoryIncome}" Width="200" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Счет" Binding="{Binding BillIncome}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding NameIncome}"/>
+                            <DataGridTextColumn Header="Сумма" Binding="{Binding SumIncome}"/>
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding CommentIncome}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox x:Name="ParamGB" Header="Параметры вывода" Margin="0,10,0,0" BorderThickness="0,1,0,1" BorderBrush="#FF807E7E" FontSize="14" FontStyle="Normal" FontWeight="Bold" Height="80" VerticalAlignment="Top">
+                        <Grid x:Name="ParamGrid">
+                            <RadioButton x:Name="INTodayRB" Content="Сегодня" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" Checked="INTodayRB_Checked"/>
+                            <RadioButton x:Name="INWeekRB" Content="Неделя" HorizontalAlignment="Left" Margin="215,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="0.225,0.647" Checked="INWeekRB_Checked"/>
+                            <RadioButton x:Name="INMounthRB" Content="Месяц" HorizontalAlignment="Center" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="0.2,0.547" Checked="INMounthRB_Checked" Margin="0,10,0,0"/>
+                            <RadioButton x:Name="INYearRB" Content="Год" HorizontalAlignment="Left" Margin="625,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="-0.2,0.547" Checked="INYearRB_Checked"/>
+                            <RadioButton x:Name="INAllRB" Content="Всё время" HorizontalAlignment="Left" Margin="830,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" IsChecked="True" IsThreeState="True" Checked="INAllRB_Checked"/>
+                        </Grid>
+                    </GroupBox>
+                    <Button x:Name="INBTN" Content="Сохранить изменения" HorizontalAlignment="Center" Width="943" FontWeight="Bold" FontStyle="Normal" Height="30" VerticalAlignment="Bottom" Click="INBTN_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="ExpensesTab" Header="Расходы" FontSize="13" FontFamily="Comic Sans MS" FontStyle="Italic">
+                <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-2">
+                    <Grid x:Name="ExpensesGrid"/>
+                    <DataGrid x:Name="EXdataGrid" ColumnWidth="*" AutoGenerateColumns="False" VerticalContentAlignment="Center" Margin="0,95,0,30" CanUserAddRows="False" CellEditEnding="EXdataGrid_CellEditEnding" RowEditEnding="EXdataGrid_RowEditEnding" BeginningEdit="EXdataGrid_BeginningEdit" MouseDown="EXdataGrid_MouseDown">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type ScrollBar}">
+                                <Style.Triggers>
+                                    <Trigger Property="Orientation" Value="Vertical">
+                                        <Setter Property="Width" Value="20"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <DataGrid.RowHeaderStyle>
+                            <Style TargetType="{x:Type DataGridRowHeader}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Дата">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding DateExpense, Mode=TwoWay, UpdateSourceTrigger =PropertyChanged}" BorderThickness="0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Категория расходов" Binding="{Binding CategoryExpense}" Width="200" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Счет" Binding="{Binding BillExpense}" IsReadOnly="True"/>
+                            <DataGridTextColumn Header="Название" Binding="{Binding  NameExpense}"/>
+                            <DataGridTextColumn Header="Сумма" Binding="{Binding SumExpense}"/>
+                            <DataGridTextColumn Header="Комментарий" Binding="{Binding CommentExpense}"/>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox x:Name="ParamGBEX" Header="Параметры вывода" Margin="0,10,0,0" BorderThickness="0,1,0,1" BorderBrush="#FF807E7E" FontSize="14" FontStyle="Normal" FontWeight="Bold" Height="80" VerticalAlignment="Top">
+                        <Grid x:Name="ParamGridEX">
+                            <RadioButton x:Name="EXTodayRB" Content="Сегодня" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" Checked="EXTodayRB_Checked"/>
+                            <RadioButton x:Name="EXWeekRB" Content="Неделя" HorizontalAlignment="Left" Margin="215,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="0.225,0.647" Checked="EXWeekRB_Checked"/>
+                            <RadioButton x:Name="EXMounthRB" Content="Месяц" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="0.2,0.547" Checked="EXMounthRB_Checked"/>
+                            <RadioButton x:Name="EXYearRB" Content="Год" HorizontalAlignment="Left" Margin="625,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="-0.2,0.547" Checked="EXYearRB_Checked"/>
+                            <RadioButton x:Name="EXAllRB" Content="Всё время" HorizontalAlignment="Left" Margin="830,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" IsChecked="True" IsThreeState="True" Checked="EXAllRB_Checked"/>
+                        </Grid>
+                    </GroupBox>
+                    <Button x:Name="EXBTN" Content="Сохранить изменения" HorizontalAlignment="Center" Width="943" FontWeight="Bold" FontStyle="Normal" Height="30" VerticalAlignment="Bottom" Click="EXBTN_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="TargetTab" Header="Цели" FontSize="13" FontFamily="Comic Sans MS" FontStyle="Italic">
+                <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-2">
+                    <Grid x:Name="TargetGrid"/>
+                    <DataGrid x:Name="TAdataGrid" ColumnWidth="*" AutoGenerateColumns="False" VerticalContentAlignment="Center"  Margin="0,95,0,30" CanUserAddRows="False" RowEditEnding="TAdataGrid_RowEditEnding" CellEditEnding="TAdataGrid_CellEditEnding" BeginningEdit="TAdataGrid_BeginningEdit" MouseDown="TAdataGrid_MouseDown">
+                        <DataGrid.Resources>
+                            <Style TargetType="{x:Type ScrollBar}">
+                                <Style.Triggers>
+                                    <Trigger Property="Orientation" Value="Vertical">
+                                        <Setter Property="Width" Value="20"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGrid.Resources>
+
+                        <DataGrid.RowHeaderStyle>
+                            <Style TargetType="{x:Type DataGridRowHeader}">
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate />
+                                    </Setter.Value>
+                                </Setter>
+                            </Style>
+                        </DataGrid.RowHeaderStyle>
+
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Дата">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding DateCreateGoal, Mode=TwoWay, UpdateSourceTrigger =PropertyChanged}" BorderThickness="0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                            <DataGridTextColumn Header="Название" Binding="{Binding NameGoal}" Width="200"/>
+                            <DataGridTextColumn Header="Сумма цели" Binding="{Binding SumGoal}"/>
+                            <DataGridTextColumn Header="Собранная сумма" Binding="{Binding SumAlredy}" />
+                            <DataGridTextColumn Header="Осталось" Binding="{Binding SumLeft}" IsReadOnly="True"/>
+
+                            <DataGridTemplateColumn Header="Дата окончания">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <DatePicker SelectedDate="{Binding DateFinalGoal, Mode=TwoWay, UpdateSourceTrigger =PropertyChanged}" BorderThickness="0"/>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <GroupBox x:Name="ParamGB_Copy1" Header="Параметры вывода" Margin="0,10,0,0" BorderThickness="0,1,0,1" BorderBrush="#FF807E7E" FontSize="14" FontStyle="Normal" FontWeight="Bold" Height="80" VerticalAlignment="Top">
+                        <Grid x:Name="ParamGrid2">
+                            <RadioButton x:Name="GOTodayRB" Content="Сегодня" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" Checked="GOTodayRB_Checked"/>
+                            <RadioButton x:Name="GOWeekRB" Content="Неделя" HorizontalAlignment="Left" Margin="215,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="0.225,0.647" Checked="GOWeekRB_Checked"/>
+                            <RadioButton x:Name="GOMounthRB" Content="Месяц" HorizontalAlignment="Center" Margin="0,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="0.2,0.547" Checked="GOMounthRB_Checked"/>
+                            <RadioButton x:Name="GOYearRB" Content="Год" HorizontalAlignment="Left" Margin="625,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" RenderTransformOrigin="-0.2,0.547" Checked="GOYearRB_Checked"/>
+                            <RadioButton x:Name="GOAllRB" Content="Всё время" HorizontalAlignment="Left" Margin="831,10,0,0" VerticalAlignment="Top" Height="30" FontWeight="Normal" VerticalContentAlignment="Center" Width="90" IsChecked="True" IsThreeState="True" Checked="GOAllRB_Checked"/>
+                        </Grid>
+                    </GroupBox>
+                    <Button x:Name="TABTN" Content="Сохранить изменения" HorizontalAlignment="Center" Width="943" FontWeight="Bold" FontStyle="Normal" Height="30" VerticalAlignment="Bottom" Click="TABTN_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="ReportTab" Header="Отчеты" FontSize="13" FontStyle="Italic" FontFamily="Comic Sans MS">
+                <Grid Background="#FFE5E5E5" Margin="-2,-2,-2,-2">
+                    <Grid x:Name="ReportGrid"/>
+                    <GroupBox x:Name="ListGB" Header="Отметьте пункты отчета" Margin="10,33,623,0" Width="310" FontSize="14" FontFamily="Comic Sans MS" FontStyle="Normal" Height="160" BorderBrush="#FF807E7E" VerticalAlignment="Top">
+                        <Grid x:Name="ListGrid">
+                            <CheckBox x:Name="BudgetBOX" Content="Информация о бюджете" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontStyle="Normal"/>
+                            <CheckBox x:Name="CatInBOX" Content="Информация по категориям доходов" Margin="10,34,0,0" VerticalAlignment="Top" FontStyle="Normal" HorizontalAlignment="Left" Width="271"/>
+                            <CheckBox x:Name="CatExBOX" Content="Информация по категориям расходов" HorizontalAlignment="Left" Margin="10,58,0,0" VerticalAlignment="Top" FontStyle="Normal"/>
+                            <CheckBox x:Name="InBOX" Content="Доходы в заданный  период" HorizontalAlignment="Left" Margin="10,79,0,0" VerticalAlignment="Top" FontStyle="Normal"/>
+                            <CheckBox x:Name="ExBOX" Content="Расходы в заданный период" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" FontStyle="Normal"/>
+                        </Grid>
+                    </GroupBox>
+                    <GroupBox x:Name="PeriodGB" Header="Укажите период" Margin="10,198,623,0" Width="310" FontSize="14" FontFamily="Comic Sans MS" FontStyle="Normal" Height="110" BorderBrush="#FF807E7E" VerticalAlignment="Top">
+                        <Grid x:Name="PeriodGrid">
+                            <Label x:Name="FromL" Content="Период от:" HorizontalAlignment="Left" Margin="8,10,0,0" VerticalAlignment="Top" FontSize="13" Height="30"/>
+                            <DatePicker x:Name="FromDP" HorizontalAlignment="Left" Margin="94,10,0,0" VerticalAlignment="Top" Height="30" Width="194"/>
+                            <Label x:Name="ToL" Content="Период до:" HorizontalAlignment="Left" Margin="8,45,0,0" VerticalAlignment="Top" FontSize="13" Height="30"/>
+                            <DatePicker x:Name="ToDP" HorizontalAlignment="Left" Margin="96,45,0,0" VerticalAlignment="Top" Height="30" Width="194"/>
+                        </Grid>
+                    </GroupBox>
+                    <TextBox x:Name="RepTB" HorizontalAlignment="Left" Margin="325,44,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="608" Height="539" FontStyle="Normal" IsReadOnly="True" FontFamily="Arial" FontSize="14"/>
+                    <Label x:Name="RepL" Content="Составленный отчет" HorizontalAlignment="Left" Margin="325,10,0,0" VerticalAlignment="Top" FontStyle="Normal" FontSize="14"/>
+                    <Button x:Name="CreateReportBRB" Content="Составить отчет" HorizontalAlignment="Left" Margin="10,313,0,0" VerticalAlignment="Top" Height="30" Width="310" FontStyle="Normal" FontWeight="Bold" FontSize="14" Click="CreateReportBRB_Click"/>
+                    <Button x:Name="SavePrintBTn" Content="Сохранить на печать" HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" Height="30" Width="310" FontStyle="Normal" FontWeight="Bold" FontSize="14" Click="SavePrintBTn_Click"/>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+        <GroupBox x:Name="AddInGB" Header="Добавить доход" Margin="10,225,960,10" BorderBrush="#FF807E7E" FontSize="14" FontFamily="Comic Sans MS" FontStyle="Normal" FontWeight="Bold" Grid.Row="1" Visibility="Visible">
+            <Grid x:Name="AddInGrid">
+                <Label x:Name="CategoryInL" Content="Категория дохода:" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <ComboBox x:Name="CategoryInCB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,45,0,0" Width="278" Height="30" VerticalAlignment="Top" FontWeight="Normal"/>
+                <Label x:Name="NameAddInL" Content="Название:" HorizontalAlignment="Center" Margin="0,80,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="NameAddInTB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,115,0,0" TextWrapping="Wrap" Width="278" FontWeight="Normal" Height="30" VerticalAlignment="Top"/>
+                <Label x:Name="BillInL" Content="Счет:" HorizontalAlignment="Center" Margin="0,150,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <ComboBox x:Name="BillInCB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,185,0,0" Width="278" Height="30" VerticalAlignment="Top" FontWeight="Normal"/>
+                <Label x:Name="MoneyInL" Content="Сумма:" HorizontalAlignment="Center" Margin="0,220,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="MoneyInTB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,255,0,0" TextWrapping="Wrap" Width="278" FontWeight="Normal" Height="30" VerticalAlignment="Top"/>
+                <Label x:Name="CommentInL" Content="Комментарий:" HorizontalAlignment="Center" Margin="0,290,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="CommentInTB" VerticalContentAlignment="Center" Margin="0,325,0,46" TextWrapping="Wrap" FontWeight="Normal" HorizontalAlignment="Center" Width="278"/>
+                <Button x:Name="AddInBTN" Content="Добавить" Margin="0,0,0,10" HorizontalAlignment="Center" Width="278" Height="30" VerticalAlignment="Bottom" Click="AddInBTN_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox x:Name="AddOutGB" Header="Добавить расход" Margin="10,225,960,10" BorderBrush="#FF807E7E" FontSize="14" FontFamily="Comic Sans MS" FontStyle="Normal" FontWeight="Bold" Grid.Row="1" Visibility="Hidden">
+            <Grid x:Name="AddOutGrid">
+                <Label x:Name="CategoryOutL" Content="Категория расхода:" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <ComboBox x:Name="CategoryOutCB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,45,0,0" Width="278" Height="30" VerticalAlignment="Top" FontWeight="Normal"/>
+                <Label x:Name="NameAddOutL" Content="Название:" HorizontalAlignment="Center" Margin="0,80,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="NameAddOutTB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,115,0,0" TextWrapping="Wrap" Width="278" FontWeight="Normal" Height="30" VerticalAlignment="Top"/>
+                <Label x:Name="BillOutL" Content="Счет:" HorizontalAlignment="Center" Margin="0,150,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <ComboBox x:Name="BillOutCB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,185,0,0" Width="278" Height="30" VerticalAlignment="Top" FontWeight="Normal"/>
+                <Label x:Name="MoneyOutL" Content="Сумма:" HorizontalAlignment="Center" Margin="0,220,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="MoneyOutTB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,255,0,0" TextWrapping="Wrap" Width="278" FontWeight="Normal" Height="30" VerticalAlignment="Top"/>
+                <Label x:Name="CommentOutL" Content="Комментарий:" HorizontalAlignment="Center" Margin="0,290,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="CommentOutTB" VerticalContentAlignment="Center" Margin="0,325,0,46" TextWrapping="Wrap" FontWeight="Normal" HorizontalAlignment="Center" Width="278"/>
+                <Button x:Name="AddOutBTN" Content="Добавить" Margin="0,0,0,10" HorizontalAlignment="Center" Width="278" Height="30" VerticalAlignment="Bottom" Click="AddOutBTN_Click"/>
+            </Grid>
+        </GroupBox>
+
+        <GroupBox x:Name="AddGoalGB" Header="Добавить цель" Margin="10,225,960,10" BorderBrush="#FF807E7E" FontSize="14" FontFamily="Comic Sans MS" FontStyle="Normal" FontWeight="Bold" Grid.Row="1" Visibility="Hidden">
+            <Grid x:Name="AddGoalGrid">
+                <Label x:Name="NameAddGoalL" Content="Название:" HorizontalAlignment="Center" Margin="0,10,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="NameAddGoalTB" VerticalContentAlignment="Center" HorizontalAlignment="Center" Margin="0,45,0,0" TextWrapping="Wrap" Width="278" FontWeight="Normal" Height="30" VerticalAlignment="Top"/>
+                <Label x:Name="MoneyGoalL" Content="Сумма цели:" HorizontalAlignment="Center" Margin="0,80,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <TextBox x:Name="MoneyGoalTB" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Width="278" FontWeight="Normal" Height="30" VerticalAlignment="Top" Margin="0,115,0,0"/>
+                <Button x:Name="AddGoalBTN" Content="Добавить" Margin="0,0,0,10" HorizontalAlignment="Center" Width="278" Height="30" VerticalAlignment="Bottom" Click="AddGoalBTN_Click"/>
+                <Label x:Name="DateGoalL" Content="Дата окончания:" HorizontalAlignment="Center" Margin="0,150,0,0" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top"/>
+                <DatePicker x:Name="DateGoalDP" VerticalContentAlignment="Center" Margin="0,185,0,0" VerticalAlignment="Top" FontWeight="Normal" HorizontalAlignment="Center" Width="278" Height="30"/>
+                <Label x:Name="MoneyGoalHaveL" Content="Собранная сумма:" HorizontalAlignment="Center" FontWeight="Normal" FontStyle="Italic" Width="278" Height="30" VerticalAlignment="Top" Margin="0,220,0,0"/>
+                <TextBox x:Name="MoneyGoalHaveTB" VerticalContentAlignment="Center" HorizontalAlignment="Center" TextWrapping="Wrap" Width="278" FontWeight="Normal" Height="30" VerticalAlignment="Top" Margin="0,255,0,0"/>
+            </Grid>
+        </GroupBox>
+
+    </Grid>
+</Window>

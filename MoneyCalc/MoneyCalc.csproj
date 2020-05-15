@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="icon.png" />
+    <None Remove="LogRegUser\icon.png" />
+    <None Remove="LogRegUser\show.png" />
+    <None Remove="MenuForm\icon.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.95.2" />
+    <PackageReference Include="DocXCore" Version="1.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="icon.png" />
+    <Resource Include="LogRegUser\icon.png" />
+    <Resource Include="LogRegUser\show.png" />
+    <Resource Include="MenuForm\icon.png" />
+  </ItemGroup>
+
+</Project>
